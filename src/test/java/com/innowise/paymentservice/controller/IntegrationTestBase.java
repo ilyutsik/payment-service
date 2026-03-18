@@ -33,6 +33,7 @@ public class IntegrationTestBase {
   static KafkaContainer kafka = new KafkaContainer(
       DockerImageName.parse("apache/kafka:3.7.0")
   );
+
   @Container
   static GenericContainer<?> wiremock = new GenericContainer<>(
       "wiremock/wiremock:3.5.4").withExposedPorts(8080);
