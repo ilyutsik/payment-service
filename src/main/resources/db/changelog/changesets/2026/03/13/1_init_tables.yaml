@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ilyutsik
+      changes:
+        - createCollection:
+            collectionName: payments
+            options:
+              validator:
+                $jsonSchema:
+                  bsonType: "object"
+                  required:
+                    - order_id
+                    - user_id
+                    - status
+                    - timestamp
+                    - payment_amount
+                  properties:
+                    order_id:
+                      bsonType: long
+                    user_id:
+                      bsonType: long
+                    status:
+                      bsonType: string
+                    timestamp:
+                      bsonType: date
+                    payment_amount:
+                      bsonType: decimal
+
+        - runCommand:
+            command: >
+              { createIndexes: "payments", indexes: [{ key: { order_id: 1 }, name: "idx_payments_order_id" }] }
+        - runCommand:
+            command: >
+              { createIndexes: "payments", indexes: [{ key: { user_id: 1 }, name: "idx_payments_user_id" }] }
+        - runCommand:
+            command: >
+              { createIndexes: "payments", indexes: [{ key: { status: 1 }, name: "idx_payments_status" }] }

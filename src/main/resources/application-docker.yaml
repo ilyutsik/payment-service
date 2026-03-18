@@ -1,0 +1,8 @@
+spring:
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+  data:
+    mongodb:
+      uri: ${MONGO_DB_URL:mongodb://payment-db:27017/payments_db}
+      auto-index-creation: true
+
