@@ -128,7 +128,7 @@ class PaymentServiceImplTest {
     when(repository.getTotalPaymentsForAll(from, to)).thenReturn(
         BigDecimal.valueOf(500));
 
-    BigDecimal total = paymentService.geAllUsersTotalSumPayments(from, to);
+    BigDecimal total = paymentService.getAllUsersTotalSumPayments(from, to);
 
     assertEquals(BigDecimal.valueOf(500), total);
     verify(repository).getTotalPaymentsForAll(from, to);

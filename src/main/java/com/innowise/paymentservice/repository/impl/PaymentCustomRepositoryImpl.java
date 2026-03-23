@@ -27,21 +27,17 @@ public class PaymentCustomRepositoryImpl implements PaymentCustomRepository {
   @Override
   public List<Payment> findByUserIdOrOrderIdOrStatus(Long userId, Long orderId,
       PaymentStatus status) {
+
     Query query = new Query();
-    List<Criteria> criteria = new ArrayList<>();
 
     if (userId != null) {
-      criteria.add(Criteria.where("user_id").is(userId));
+      query.addCriteria(Criteria.where("user_id").is(userId));
     }
     if (orderId != null) {
-      criteria.add(Criteria.where("order_id").is(orderId));
+      query.addCriteria(Criteria.where("order_id").is(orderId));
     }
     if (status != null) {
-      criteria.add(Criteria.where("status").is(status));
-    }
-
-    if (!criteria.isEmpty()) {
-      query.addCriteria(new Criteria().orOperator(criteria));
+      query.addCriteria(Criteria.where("status").is(status));
     }
 
     return mongoTemplate.find(query, Payment.class);

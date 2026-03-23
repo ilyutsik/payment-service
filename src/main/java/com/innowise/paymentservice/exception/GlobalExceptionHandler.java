@@ -1,6 +1,7 @@
 package com.innowise.paymentservice.exception;
 
 import java.time.LocalDateTime;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,7 +18,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(RandomNumberClientException.class)
-  public ResponseEntity<ErrorResponse> handlePaymentNotFound(RandomNumberClientException ex) {
+  public ResponseEntity<ErrorResponse> handleRandomNumberClient(RandomNumberClientException ex) {
     ErrorResponse errorResponse = buildErrorResponse(ex, HttpStatus.SERVICE_UNAVAILABLE);
     return new ResponseEntity<>(errorResponse, HttpStatus.SERVICE_UNAVAILABLE);
   }
@@ -28,8 +29,10 @@ public class GlobalExceptionHandler {
 
     String error = ex.getBindingResult()
         .getFieldErrors()
-        .getFirst()
-        .getDefaultMessage();
+        .stream()
+        .findFirst()
+        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        .orElse("Validation error");
 
     ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), error,
         HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());

@@ -36,3 +36,9 @@ databaseChangeLog:
         - runCommand:
             command: >
               { createIndexes: "payments", indexes: [{ key: { status: 1 }, name: "idx_payments_status" }] }
+        - runCommand:
+            command: >
+              { createIndexes: "payments", indexes: [{ key: { user_id: 1, timestamp: 1 }, name: "idx_payments_user_timestamp" }] }
+        - runCommand:
+            command: >
+              { createIndexes: "payments", indexes: [{ key: { order_id: 1, timestamp: 1 }, name: "idx_payments_order_timestamp" }] }

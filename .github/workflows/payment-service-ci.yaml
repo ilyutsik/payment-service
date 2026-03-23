@@ -34,11 +34,8 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build project (without tests)
-        run: ./gradlew clean build -x test
-
-      - name: Run tests
-        run: ./gradlew test jacocoTestReport
+      - name: Build and test project
+        run: ./gradlew clean build jacocoTestReport
 
       - name: Cache SonarQube packages
         uses: actions/cache@v4
@@ -50,7 +47,7 @@ jobs:
       - name: SonarQube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonar --info
+        run: ./gradlew sonar --info
 
       - name: Upload JAR artifacts
         uses: actions/upload-artifact@v4

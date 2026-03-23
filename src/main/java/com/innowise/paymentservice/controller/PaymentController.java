@@ -60,7 +60,7 @@ public class PaymentController {
   @GetMapping("/summary")
   public ResponseEntity<BigDecimal> getAllUsersPaymentsSum(
       @RequestParam(required = false) Instant from, @RequestParam(required = false) Instant to) {
-    BigDecimal response = paymentService.geAllUsersTotalSumPayments(from, to);
+    BigDecimal response = paymentService.getAllUsersTotalSumPayments(from, to);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }

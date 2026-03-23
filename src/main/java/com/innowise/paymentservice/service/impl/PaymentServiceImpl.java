@@ -61,7 +61,7 @@ public class PaymentServiceImpl implements PaymentService {
 
   @Override
   @Transactional(readOnly = true)
-  public BigDecimal geAllUsersTotalSumPayments(Instant from, Instant to) {
+  public BigDecimal getAllUsersTotalSumPayments(Instant from, Instant to) {
     return repository.getTotalPaymentsForAll(from, to);
   }
 

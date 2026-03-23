@@ -10,10 +10,25 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfiguration {
 
   @Value("${spring.kafka.topics.payment-events}")
-  private String topicName;
+  private String mainTopic;
+
+  @Value("${spring.kafka.topics.payment-events-dlq}")
+  private String dlqTopic;
 
   @Bean
   public NewTopic paymentTopic() {
-    return TopicBuilder.name(topicName).partitions(10).replicas(1).build();
+    return TopicBuilder.name(mainTopic)
+          .partitions(4)
+          .replicas(1)
+          .build();
+  }
+
+  @Bean
+  public NewTopic dlqPaymentTopic() {
+    return TopicBuilder
+          .name(dlqTopic)
+          .partitions(4)
+          .replicas(1)
+          .build();
   }
 }

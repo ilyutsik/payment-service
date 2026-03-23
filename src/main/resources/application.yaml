@@ -2,6 +2,15 @@ spring:
   profiles:
     active: local
   kafka:
+    consumer:
+      group-id: payment-dlq-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.innowise.paymentservice.kafka.event"
+        spring.json.value.default.type: "com.innowise.paymentservice.kafka.event.CreatePaymentEvent"
     producer:
       acks: all
       retries: 3
@@ -15,6 +24,7 @@ spring:
         spring.json.add.type.headers: false
     topics:
       payment-events: create-payment
+      payment-events-dlq: create-payment-dlq
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
@@ -31,6 +41,10 @@ springdoc:
 
 random-number-api:
   url: ${RANDOM_API_URL:https://www.randomnumberapi.com}
+
+feign:
+  circuitbreaker:
+    enabled: true
 
 logging:
   level:

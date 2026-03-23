@@ -3,7 +3,6 @@ package com.innowise.paymentservice.model.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -28,8 +27,7 @@ public abstract class BasePaymentDto {
   private Instant timestamp;
 
   @NotNull(message = "Payment amount must be provided")
-  @Positive(message = "Payment amount must be a positive number")
-  @DecimalMin(value = "0.01", message = "Payment amount must be greater than 0")
+  @DecimalMin(value = "0.01", message = "Payment amount must be greater than 0.1")
   @Schema(example = "100.50")
 
   private BigDecimal paymentAmount;

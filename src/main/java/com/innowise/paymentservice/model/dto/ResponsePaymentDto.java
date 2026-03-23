@@ -11,6 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponsePaymentDto extends BasePaymentDto {
+
+  private String id;
   
   private PaymentStatus status;
 }

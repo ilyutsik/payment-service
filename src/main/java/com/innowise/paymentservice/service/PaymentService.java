@@ -16,5 +16,5 @@ public interface PaymentService {
 
   BigDecimal getUserTotalSumOfPayments(Long userId, Instant from, Instant to);
 
-  BigDecimal geAllUsersTotalSumPayments(Instant from, Instant to);
+  BigDecimal getAllUsersTotalSumPayments(Instant from, Instant to);
 }
