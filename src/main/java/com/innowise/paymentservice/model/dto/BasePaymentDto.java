@@ -27,8 +27,7 @@ public abstract class BasePaymentDto {
   private Instant timestamp;
 
   @NotNull(message = "Payment amount must be provided")
-  @DecimalMin(value = "0.01", message = "Payment amount must be greater than 0.1")
+  @DecimalMin(value = "0.01", message = "Payment amount must be at least 0.01")
   @Schema(example = "100.50")
-
   private BigDecimal paymentAmount;
 }
