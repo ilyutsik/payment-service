@@ -1,0 +1,53 @@
+spring:
+  profiles:
+    active: local
+  kafka:
+    consumer:
+      group-id: payment-dlq-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.innowise.paymentservice.kafka.event"
+        spring.json.value.default.type: "com.innowise.paymentservice.kafka.event.CreatePaymentEvent"
+    producer:
+      acks: all
+      retries: 3
+      enable-idempotence: true
+      linger-ms: 5
+      batch-size: 16384
+      compression-type: snappy
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+    topics:
+      payment-events: create-payment
+      payment-events-dlq: create-payment-dlq
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+
+server:
+  port: 8084
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+random-number-api:
+  url: ${RANDOM_API_URL:https://www.randomnumberapi.com}
+
+feign:
+  circuitbreaker:
+    enabled: true
+
+logging:
+  level:
+    org.apache.kafka: DEBUG
+    org.springframework.kafka: DEBUG
+    com.innowise.paymentservice: DEBUG
